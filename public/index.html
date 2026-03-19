@@ -3,100 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cabinet L'Abbé - Réservation</title>
+    <title>Cabinet L'Abbé - Otterburn Park</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap'); body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .service-card:hover { transform: translateY(-10px); }
+    </style>
 </head>
-<body class="bg-[#f0f4f8]">
+<body class="bg-[#f8fafc] text-slate-900">
     <div id="app">
-        <section id="agenda" class="py-24 px-6 bg-slate-900 text-white">
-            <div class="max-w-5xl mx-auto text-center mb-12">
-                <h2 class="text-4xl font-black uppercase italic tracking-tighter">Prendre Rendez-vous</h2>
-                <p class="text-slate-400 mt-4">Sélectionnez une plage horaire entre 09:00 et 20:00</p>
+        <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 h-20 flex items-center px-6">
+            <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-200">
+                        <i class="fas fa-balance-scale text-white"></i>
+                    </div>
+                    <span class="text-xl font-black tracking-tighter uppercase text-slate-800">Cabinet L'Abbé</span>
+                </div>
+                <div class="hidden md:flex gap-8 font-bold text-slate-500 text-sm">
+                    <a href="#accueil" class="hover:text-blue-600 transition uppercase">Accueil</a>
+                    <a href="#services" class="hover:text-blue-600 transition uppercase">Services</a>
+                    <a href="#agenda" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition shadow-xl shadow-blue-100 uppercase">Rendez-vous</a>
+                </div>
             </div>
+        </nav>
 
-            <div class="max-w-5xl mx-auto bg-white/5 p-8 rounded-[3rem] border border-white/10">
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
-                    <button 
-                        v-for="heure in heures" 
-                        :key="heure.id"
-                        @click="handleBooking(heure)"
-                        :disabled="heure.prise"
-                        :class="[
-                            'py-5 rounded-2xl font-bold transition-all border relative',
-                            heure.prise ? 'bg-white/5 border-transparent text-white/20' : 'bg-white/10 border-white/10 text-white hover:bg-blue-600'
-                        ]"
-                    >
-                        <span v-if="heure.prise" class="text-[8px] absolute top-2 left-0 right-0 opacity-50 uppercase">Occupé</span>
-                        {{ heure.temps }}
-                    </button>
+        <header id="accueil" class="pt-48 pb-20 px-6 text-center bg-gradient-to-b from-blue-50/50 to-transparent">
+            <div class="inline-block px-4 py-1.5 mb-8 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em]">
+                Ouvert de 09:00 à 20:00 • Otterburn Park
+            </div>
+            <h1 class="text-6xl md:text-8xl font-black text-slate-900 mb-8 tracking-tighter leading-none">
+                Le meilleur des meilleurs <br><span class="text-blue-600 italic">cabinet d'avocat.</span>
+            </h1>
+            <p class="text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-medium">
+                Expertise juridique rigoureuse et approche humaine. <br>Votre succès est notre seule priorité.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#agenda" class="bg-slate-900 text-white px-12 py-5 rounded-2xl font-black text-lg shadow-2xl hover:bg-slate-800 transition-all">Consulter l'agenda</a>
+                <a href="tel:5147586930" class="bg-white text-blue-600 border border-blue-100 px-12 py-5 rounded-2xl font-black text-lg hover:bg-blue-50 transition-all">514 758 6930</a>
+            </div>
+        </header>
+
+        <section id="services" class="py-24 px-6 max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="service-card bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm transition-all duration-300">
+                    <i class="fas fa-users text-3xl text-blue-600 mb-6"></i>
+                    <h3 class="text-xl font-black mb-4 uppercase tracking-tighter">Famille</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 font-medium">Divorce, garde d'enfants et médiation. Protection de vos intérêts familiaux.</p>
+                </div>
+                <div class="service-card bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm transition-all duration-300">
+                    <i class="fas fa-home text-3xl text-emerald-600 mb-6"></i>
+                    <h3 class="text-xl font-black mb-4 uppercase tracking-tighter">Immobilier</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 font-medium">Transactions sécurisées et litiges de propriété à Otterburn Park.</p>
+                </div>
+                <div class="service-card bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm transition-all duration-300">
+                    <i class="fas fa-gavel text-3xl text-amber-600 mb-6"></i>
+                    <h3 class="text-xl font-black mb-4 uppercase tracking-tighter">Litige Civil</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 font-medium">Défense de vos droits et représentation stratégique devant les tribunaux.</p>
+                </div>
+                <div class="service-card bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm transition-all duration-300">
+                    <i class="fas fa-briefcase text-3xl text-indigo-600 mb-6"></i>
+                    <h3 class="text-xl font-black mb-4 uppercase tracking-tighter">Affaires</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 font-medium">Conseils juridiques pour entrepreneurs et PME de la région.</p>
                 </div>
             </div>
         </section>
+
+        <section id="agenda" class="py-24 px-6 bg-slate-900 text-white overflow-hidden relative">
+            <div class="max-w-5xl mx-auto relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black tracking-tighter mb-4 italic uppercase text-blue-400">Agenda en direct</h2>
+                    <p class="text-slate-400 font-bold uppercase text-xs tracking-[0.3em]">Réservation de 30 minutes • 09:00 - 20:00</p>
+                </div>
+
+                <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[3.5rem] border border-white/10">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                        <button 
+                            v-for="heure in heures" 
+                            :key="heure.id"
+                            @click="handleBooking(heure)"
+                            :disabled="heure.prise"
+                            :class="[
+                                'py-5 rounded-2xl font-black transition-all border relative text-sm',
+                                heure.prise 
+                                    ? 'bg-white/5 border-transparent text-white/20 cursor-not-allowed' 
+                                    : 'bg-white/10 border-white/10 text-white hover:bg-blue-600 hover:border-blue-500 hover:scale-105 active:scale-95'
+                            ]"
+                        >
+                            <span v-if="heure.prise" class="text-[8px] absolute top-2 left-0 right-0 tracking-tighter opacity-50 uppercase">Occupé</span>
+                            <span>{{ heure.temps }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-20 text-center border-t border-slate-200">
+            <span class="text-blue-600 font-black text-2xl uppercase tracking-tighter italic">Cabinet L'Abbé</span>
+            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.4em] mt-4">Otterburn Park, Québec • &copy; 2026</p>
+        </footer>
     </div>
 
     <script>
-        // --- CONFIGURATION FIREBASE ---
-        // Remplace par tes clés Firebase ici :
+        // CONFIGURATION FIREBASE (REMPLACE PAR TES CLÉS SI NÉCESSAIRE)
         const firebaseConfig = {
             apiKey: "AIzaSyByM8N5_n72bDy_n1t2dq6m6_rT2u86NyM",
             authDomain: "cabinet-labbe-app.firebaseapp.com",
             projectId: "cabinet-labbe-app",
             storageBucket: "cabinet-labbe-app.firebasestorage.app",
             messagingSenderId: "44920288369",
-            appId: "1:44920288369:web:1bd4fef9b66f3c5ed197d0"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        const { createApp, ref, onMounted } = Vue;
-        createApp({
-            setup() {
-                const heures = ref([]);
-                
-                const chargerAgenda = () => {
-                    const tempHeures = [];
-                    for (let h = 9; h <= 19; h++) {
-                        const hh = h.toString().padStart(2, '0');
-                        tempHeures.push({ id: hh+'00', temps: hh+':00', prise: false });
-                        tempHeures.push({ id: hh+'30', temps: hh+':30', prise: false });
-                    }
-                    
-                    // Écouter les rendez-vous en temps réel dans Firebase
-                    db.collection("rendezvous").onSnapshot((snapshot) => {
-                        const rdvPris = snapshot.docs.map(doc => doc.id);
-                        heures.value = tempHeures.map(h => ({
-                            ...h,
-                            prise: rdvPris.includes(h.id)
-                        }));
-                    });
-                };
-
-                const handleBooking = async (heure) => {
-                    const nom = prompt("Entrez votre nom pour confirmer à " + heure.temps);
-                    if (nom) {
-                        try {
-                            await db.collection("rendezvous").doc(heure.id).set({
-                                client: nom,
-                                heure: heure.temps,
-                                date: new Date().toLocaleDateString()
-                            });
-                            alert("Rendez-vous confirmé !");
-                        } catch (e) {
-                            alert("Erreur: Vérifiez si Firestore est en 'Mode Test'");
-                        }
-                    }
-                };
-
-                onMounted(chargerAgenda);
-                return { heures, handleBooking };
-            }
-        }).mount('#app');
-    </script>
-</body>
-</html>
+            appId: "1:44920288369:web:1bd4fef9b66f3

@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabinet L'Abbé - Otterburn Park</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans">
 
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 h-20 flex items-center px-4">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-emerald-800 p-2 rounded-lg text-white"><i class="fas fa-scale-balanced"></i></div>
+                <span class="text-xl font-bold text-emerald-900 uppercase">Cabinet L'Abbé</span>
+            </div>
+            <div class="hidden md:flex space-x-8 font-medium text-slate-600">
+                <a href="#accueil" class="hover:text-emerald-700 transition">Accueil</a>
+                <a href="#services" class="hover:text-emerald-700 transition">Services</a>
+                <a href="mailto:Felix.ciboulette.labbe@gmail.com" class="bg-emerald-800 text-white px-6 py-2 rounded-full font-bold">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="accueil" class="pt-40 pb-24 text-center px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tight">Droit. <span class="text-emerald-800">Équité.</span> Résultats.</h1>
+            <p class="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">Cabinet juridique à Otterburn Park. Expertise et dévouement pour vos dossiers les plus complexes.</p>
+            <div class="flex justify-center">
+                <a href="mailto:Felix.ciboulette.labbe@gmail.com" class="bg-emerald-800 text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-xl active:scale-95 transition-all">Prendre rendez-vous</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="services" class="py-24 bg-white px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-black mb-16 uppercase tracking-widest">Nos Expertises</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 shadow-sm">
+                    <i class="fas fa-users text-3xl text-emerald-800 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Famille</h3>
+                    <p class="text-slate-600 text-sm">Divorce, garde d'enfants et médiation.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 shadow-sm">
+                    <i class="fas fa-home text-3xl text-emerald-800 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Immobilier</h3>
+                    <p class="text-slate-600 text-sm">Transactions et litiges de propriété.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 shadow-sm">
+                    <i class="fas fa-gavel text-3xl text-emerald-800 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Litige Civil</h3>
+                    <p class="text-slate-600 text-sm">Défense stratégique de vos intérêts.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 shadow-sm">
+                    <i class="fas fa-briefcase text-3xl text-emerald-800 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Affaires</h3>
+                    <p class="text-slate-600 text-sm">Conseils pour entrepreneurs et PME.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="py-20 bg-slate-950 text-slate-400 text-center px-4">
+        <div class="max-w-7xl mx-auto flex flex-col items-center gap-4">
+            <span class="text-white font-bold uppercase tracking-widest text-xl">Cabinet L'Abbé</span>
+            <p>Otterburn Park, Québec</p>
+            <p class="text-emerald-500 font-bold text-2xl">514 758 6930</p>
+            <p class="text-sm mt-8 opacity-50">&copy; 2026 Cabinet L'Abbé. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

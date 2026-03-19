@@ -180,7 +180,23 @@ const App = () => {
           <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}><Menu /></button>
         </div>
       </nav>
+{/* --- BANDEAU NON-OFFICIEL (PROJET FICTIF) --- */}
+      <div className="fixed top-20 w-full z-40 bg-amber-50 border-b border-amber-100 py-2 px-6 text-center shadow-sm">
+        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700 flex items-center justify-center gap-2">
+          <Info className="w-3 h-3" /> Projet fictif / non-officiel • Pour le divertissement uniquement
+        </p>
+      </div>
 
+      {/* --- HERO SECTION (Ajusté à pt-64 pour laisser de la place au bandeau) --- */}
+      <header id="accueil" className="pt-64 pb-24 text-center px-6 bg-gradient-to-b from-emerald-50/50 to-transparent">
+        <div className="max-w-5xl mx-auto">
+          <div className="inline-flex items-center gap-2 bg-white border border-emerald-100 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.2em] text-emerald-800 mb-10 shadow-sm">
+            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+            Persistance Cloud Activée • Otterburn Park
+          </div>
+          <h1 className="text-6xl md:text-9xl font-black text-slate-900 mb-8 tracking-tighter italic leading-none uppercase">
+            Droit. <span className="text-emerald-800">Équité.</span><br/>Résultats.
+          </h1>
       {/* --- HERO SECTION --- */}
       <header id="accueil" className="pt-48 pb-24 text-center px-6 bg-gradient-to-b from-emerald-50/50 to-transparent">
         <div className="max-w-5xl mx-auto">

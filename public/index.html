@@ -1,137 +1,162 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Scale, Calendar, Clock, MapPin, Phone, Mail, ChevronRight, 
-  CheckCircle2, Menu, X, Briefcase, Users, PartyPopper, 
-  ArrowRight, Send, Database, ChevronLeft
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabinet L'Abbé - Otterburn Park</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        [v-cloak] { display: none; }
+        .bg-emerald-900 { background-color: #064e3b; }
+        .text-emerald-800 { color: #065f46; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <div id="app" v-cloak>
+        <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 h-20 flex items-center px-6">
+            <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-emerald-800 p-2 rounded-xl shadow-lg"><i class="fas fa-balance-scale text-white"></i></div>
+                    <span class="text-xl font-black tracking-tighter uppercase text-slate-800">Cabinet L'Abbé</span>
+                </div>
+                <div class="hidden md:flex gap-8 font-bold text-slate-500 text-sm">
+                    <a href="#accueil" class="hover:text-emerald-800 transition uppercase">Accueil</a>
+                    <a href="#services" class="hover:text-emerald-800 transition uppercase">Services</a>
+                    <a href="#agenda" class="bg-emerald-800 text-white px-8 py-3 rounded-full hover:bg-emerald-900 transition shadow-xl uppercase">Rendez-vous</a>
+                </div>
+            </div>
+        </nav>
 
-// Firebase Imports
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, collection, onSnapshot, addDoc, query, orderBy } from 'firebase/firestore';
+        <header id="accueil" class="pt-48 pb-20 px-6 text-center">
+            <div class="max-w-4xl mx-auto">
+                <div class="inline-block px-4 py-1.5 mb-8 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-[0.2em]">
+                    PERSISTANCE CLOUD ACTIVÉE • OTTERBURN PARK
+                </div>
+                <h1 class="text-6xl md:text-8xl font-black text-slate-900 mb-8 tracking-tighter leading-none">
+                    Droit. <span class="text-emerald-800">Équité.</span> Résultats.
+                </h1>
+                <p class="text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-medium">
+                    Le premier cabinet d'Otterburn Park utilisant la technologie pour mieux vous servir. Disponibilités étendues jusqu'à 20h00.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#agenda" class="bg-emerald-800 text-white px-12 py-5 rounded-2xl font-black text-lg shadow-2xl hover:bg-emerald-900 transition-all">Réserver ma plage horaire</a>
+                    <a href="#services" class="bg-white text-slate-900 border-2 border-slate-100 px-12 py-5 rounded-2xl font-black text-lg hover:bg-slate-50 transition-all">Voir nos expertises</a>
+                </div>
+            </div>
+        </header>
 
-// Ta configuration Firebase (Assure-toi que ces variables sont dans ton .env ou injectées)
-const firebaseConfig = {
-  apiKey: "AIzaSyByM8N5_n72bDy_n1t2dq6m6_rT2u86NyM",
-  authDomain: "cabinet-labbe-app.firebaseapp.com",
-  projectId: "cabinet-labbe-app",
-  storageBucket: "cabinet-labbe-app.firebasestorage.app",
-  messagingSenderId: "44920288369",
-  appId: "1:44920288369:web:1bd4fef9b66f3c5ed197d0"
-};
+        <section id="services" class="py-24 px-6 max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div v-for="s in services" :key="s.title" class="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all cursor-pointer">
+                <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mb-8"><i :class="['fas', s.icon, 'text-2xl text-emerald-800']"></i></div>
+                <h3 class="text-2xl font-black mb-4 uppercase tracking-tighter">{{ s.title }}</h3>
+                <p class="text-slate-500 text-sm font-medium mb-6">{{ s.desc }}</p>
+                <div class="flex items-center gap-2 text-emerald-800 font-bold text-sm">Détails <i class="fas fa-chevron-right"></i></div>
+            </div>
+        </section>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+        <section id="agenda" class="py-24 px-6 bg-slate-900 text-white">
+            <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+                <div>
+                    <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter italic">Agenda Connecté</h2>
+                    <p class="text-slate-400 text-lg mb-10 font-medium">Consultez nos disponibilités en temps réel. Nous offrons désormais des consultations en soirée jusqu'à 20h00.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-5 p-6 rounded-3xl bg-white/5 border border-white/10"><i class="fas fa-database text-emerald-400 text-2xl"></i><p class="font-bold">Données Persistantes</p></div>
+                        <div class="flex items-center gap-5 p-6 rounded-3xl bg-white/5 border border-white/10"><i class="fas fa-paper-plane text-emerald-400 text-2xl"></i><p class="font-bold">Notification Me L'Abbé</p></div>
+                    </div>
+                </div>
 
-const App = () => {
-  const [user, setUser] = useState(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedSlot, setSelectedSlot] = useState(null);
-  const [bookingStatus, setBookingStatus] = useState('idle'); 
-  const [bookedSlots, setBookedSlots] = useState({});
-  const [nextDays, setNextDays] = useState([]);
-  const [activeService, setActiveService] = useState(null);
+                <div class="bg-white text-slate-900 p-10 rounded-[3.5rem] shadow-2xl">
+                    <div class="flex justify-between items-center mb-10">
+                        <h3 class="text-xl font-black uppercase tracking-tighter flex items-center gap-3"><i class="fas fa-calendar-alt text-emerald-800"></i> Choisir Date</h3>
+                        <input type="date" v-model="selectedDate" class="p-3 bg-slate-50 border-2 border-slate-100 rounded-xl font-bold">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
+                        <button v-for="time in timeSlots" :key="time" 
+                            @click="selectedSlot = time"
+                            :disabled="isBooked(time)"
+                            :class="['p-4 rounded-2xl border-2 font-bold transition-all', 
+                                    isBooked(time) ? 'bg-slate-50 text-slate-200 cursor-not-allowed line-through' : 
+                                    selectedSlot === time ? 'bg-emerald-800 text-white border-emerald-800 scale-105' : 'bg-white border-slate-50 hover:border-emerald-200']">
+                            {{ time }}
+                        </button>
+                    </div>
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    serviceType: 'Consultation Générale',
-    notes: ''
-  });
+                    <button :disabled="!selectedSlot" @click="handleBooking" class="w-full py-5 rounded-2xl font-black text-lg transition-all shadow-xl"
+                            :class="[!selectedSlot ? 'bg-slate-100 text-slate-300' : 'bg-emerald-800 text-white hover:bg-emerald-900']">
+                        Continuer la réservation
+                    </button>
+                </div>
+            </div>
+        </section>
 
-  const lawyerEmail = "Felix.ciboulette.labbe@gmail.com";
+        <footer class="py-20 text-center border-t border-slate-200">
+            <span class="text-emerald-800 font-black text-2xl uppercase tracking-tighter italic">Cabinet L'Abbé</span>
+            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.4em] mt-4">Otterburn Park, Québec • &copy; 2026</p>
+        </footer>
+    </div>
 
-  // 1. Authentification Anonyme pour sécuriser Firestore
-  useEffect(() => {
-    signInAnonymously(auth).catch(err => console.error("Auth error:", err));
-    const unsubscribe = onAuthStateChanged(auth, setUser);
-    return () => unsubscribe();
-  }, []);
+    <script>
+        // Ta config Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyByM8N5_n72bDy_n1t2dq6m6_rT2u86NyM",
+            authDomain: "cabinet-labbe-app.firebaseapp.com",
+            projectId: "cabinet-labbe-app",
+            storageBucket: "cabinet-labbe-app.firebasestorage.app",
+            messagingSenderId: "44920288369",
+            appId: "1:44920288369:web:1bd4fef9b66f3c5ed197d0"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-  // 2. Écoute des rendez-vous en temps réel (Temps réel = Pas de conflits)
-  useEffect(() => {
-    const q = query(collection(db, 'rendezvous'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const slots = {};
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        if (!slots[data.date]) slots[data.date] = [];
-        slots[data.date].push(data.slot);
-      });
-      setBookedSlots(slots);
-    });
-    return () => unsubscribe();
-  }, []);
+        const { createApp, ref, onMounted } = Vue;
+        createApp({
+            setup() {
+                const selectedDate = ref(new Date().toISOString().split('T')[0]);
+                const selectedSlot = ref(null);
+                const bookedSlots = ref({});
+                const services = [
+                    { title: "Famille", icon: "fa-users", desc: "Médiation, divorce et garde." },
+                    { title: "Immobilier", icon: "fa-home", desc: "Transactions et litiges." },
+                    { title: "Civil", icon: "fa-gavel", desc: "Défense de vos intérêts." },
+                    { title: "Affaires", icon: "fa-briefcase", desc: "Conseils PME." }
+                ];
+                const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
 
-  // 3. Préparation des 7 prochains jours
-  useEffect(() => {
-    const days = [];
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      if (date.getDay() !== 0) { // On exclut le dimanche
-        days.push({
-          full: date.toISOString().split('T')[0],
-          num: date.getDate(),
-          name: new Intl.DateTimeFormat('fr-FR', { weekday: 'short' }).format(date).toUpperCase().replace('.', ''),
-          display: new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long' }).format(date)
-        });
-      }
-    }
-    setNextDays(days);
-    setSelectedDate(days[0].full);
-  }, []);
+                onMounted(() => {
+                    db.collection("rendezvous").onSnapshot(snap => {
+                        const slots = {};
+                        snap.forEach(doc => {
+                            const d = doc.data();
+                            if (!slots[d.date]) slots[d.date] = [];
+                            slots[d.date].push(d.slot);
+                        });
+                        bookedSlots.value = slots;
+                    });
+                });
 
-  // Créneaux de 9h à 20h
-  const timeSlots = [
-    '09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'
-  ];
+                const isBooked = (t) => bookedSlots.value[selectedDate.value]?.includes(t);
 
-  const handleBooking = async (e) => {
-    e.preventDefault();
-    setBookingStatus('confirming');
-    try {
-      await addDoc(collection(db, 'rendezvous'), {
-        ...formData,
-        date: selectedDate,
-        slot: selectedSlot,
-        createdAt: new Date().toISOString()
-      });
-      setBookingStatus('success');
-    } catch (error) {
-      alert("Erreur de connexion à la base de données.");
-      setBookingStatus('details');
-    }
-  };
+                const handleBooking = async () => {
+                    const nom = prompt("Votre nom pour confirmer à " + selectedSlot.value + " ?");
+                    if (nom) {
+                        await db.collection("rendezvous").add({
+                            client: nom, date: selectedDate.value, slot: selectedSlot.value, created: new Date().toISOString()
+                        });
+                        alert("Rendez-vous réservé !");
+                        selectedSlot.value = null;
+                    }
+                };
 
-  const isSlotBooked = (date, time) => bookedSlots[date]?.includes(time);
-
-  const services = [
-    { id: 1, title: "Droit de la Famille", desc: "Médiation et divorce.", icon: <Users />, sub: ["Divorce", "Garde", "Médiation"] },
-    { id: 2, title: "Droit Immobilier", desc: "Transactions et litiges.", icon: <MapPin />, sub: ["Achat/Vente", "Vices cachés"] },
-    { id: 3, title: "Litige Civil", desc: "Défense de vos intérêts.", icon: <Scale />, sub: ["Contrats", "Responsabilité"] },
-    { id: 4, title: "Droit des Affaires", desc: "Conseils PME.", icon: <Briefcase />, sub: ["Incorporation", "Contrats"] }
-  ];
-
-  return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-900 selection:bg-emerald-100">
-      {/* Modal Détails Service */}
-      {activeService && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md transition-all" onClick={() => setActiveService(null)}>
-          <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl p-10 animate-in zoom-in" onClick={e => e.stopPropagation()}>
-             <h3 className="text-3xl font-black mb-4">{activeService.title}</h3>
-             <div className="space-y-3 mb-8">
-               {activeService.sub.map(s => <div key={s} className="flex items-center gap-3 font-bold text-slate-600"><CheckCircle2 className="text-emerald-600 w-5 h-5"/> {s}</div>)}
-             </div>
-             <button onClick={() => {setActiveService(null); document.getElementById('agenda').scrollIntoView();}} className="w-full py-4 bg-emerald-800 text-white rounded-2xl font-bold shadow-lg">Réserver ce service</button>
-          </div>
-        </div>
-      )}
-
-      {/* Nav */}
-      <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 h-20 flex items-center px-6">
-        <div className="max-w-7xl mx-auto w
+                return { selectedDate, selectedSlot, services, timeSlots, isBooked, handleBooking };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

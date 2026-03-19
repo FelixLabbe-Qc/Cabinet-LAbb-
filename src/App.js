@@ -187,7 +187,7 @@ const App = () => {
         </p>
       </div>
 
-      {/* --- HERO SECTION (Ajusté à pt-64 pour laisser de la place au bandeau) --- */}
+{/* --- HERO SECTION (Ajusté à pt-64 pour laisser de la place au bandeau) --- */}
       <header id="accueil" className="pt-64 pb-24 text-center px-6 bg-gradient-to-b from-emerald-50/50 to-transparent">
         <div className="max-w-5xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-white border border-emerald-100 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.2em] text-emerald-800 mb-10 shadow-sm">
